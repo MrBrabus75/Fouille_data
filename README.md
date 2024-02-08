@@ -126,47 +126,6 @@ La matrice utilisateur-film a été créée avec succès et est de forme 610×97
 
 Maintenant que nous avons notre matrice utilisateur-film correctement formatée, nous allons procéder au calcul de la similarité entre les films en utilisant la similarité cosinus. Pour ce faire, nous utiliserons NearestNeighbors de sklearn, configuré pour utiliser la métrique cosinus. Nous ajusterons ce modèle sur la matrice transposée pour calculer la similarité entre les films, puis nous testerons le système en trouvant les films les plus similaires à "Toy Story".
 
-Code :
-```
-from scipy.sparse import csr_matrix
-from sklearn.neighbors import NearestNeighbors
-
-# Réindexation pour garantir la cohérence
-# Création de mappings pour les IDs de films et d'utilisateurs
-unique_movies = ratings_df['movieId'].unique()
-movie_to_idx = {movie: idx for idx, movie in enumerate(unique_movies)}
-idx_to_movie = {idx: movie for movie, idx in movie_to_idx.items()}
-
-unique_users = ratings_df['userId'].unique()
-user_to_idx = {user: idx for idx, user in enumerate(unique_users)}
-idx_to_user = {idx: user for user, idx in user_to_idx.items()}
-
-# Création de la matrice sparse correcte
-rows = ratings_df['userId'].map(user_to_idx)
-cols = ratings_df['movieId'].map(movie_to_idx)
-values = ratings_df['rating']
-
-# La forme de la matrice doit correspondre au nombre total d'utilisateurs et de films uniques
-movie_user_matrix_sparse = csr_matrix((values, (rows, cols)), shape=(len(unique_users), len(unique_movies)))
-
-movie_user_matrix_sparse.shape
-```
-
-Les 10 films les plus similaires à "Toy Story" ont été trouvés avec succès, en utilisant la similarité cosinus pour calculer leur proximité. Voici les films recommandés avec leurs distances respectives par rapport à "Toy Story" (la distance est un indicateur de la similarité, où une distance plus faible signifie une plus grande similarité) :
-
-- Star Wars: Episode IV - A New Hope (1977) - Distance: 0.4274
-- Forrest Gump (1994) - Distance: 0.4344
-- Lion King, The (1994) - Distance: 0.4357
-- Jurassic Park (1993) - Distance: 0.4426
-- Mission: Impossible (1996) - Distance: 0.4529
-- Independence Day (a.k.a. ID4) (1996) - Distance: 0.4589
-- Star Wars: Episode VI - Return of the Jedi (1983) - Distance: 0.4589
-- Groundhog Day (1993) - Distance: 0.4611
-- Back to the Future (1985) - Distance: 0.4658
-- Toy Story 2 (1999) - Distance: 0.4696
-
-Cela conclut notre implémentation de l'algorithme de recommandation simple utilisant le filtrage collaboratif basé sur la similarité cosinus. Les films recommandés semblent être des choix pertinents, étant des films populaires qui partagent des thèmes ou des genres similaires avec "Toy Story".
-
 Code : 
 ```
 # Configuration du modèle KNN avec la similarité cosinus
@@ -190,3 +149,20 @@ similar_movies_titles = movies_df[movies_df['movieId'].isin(similar_movies)]['ti
 
 similar_movies_titles, similar_movies_distances
 ```
+
+Les 10 films les plus similaires à "Toy Story" ont été trouvés avec succès, en utilisant la similarité cosinus pour calculer leur proximité. Voici les films recommandés avec leurs distances respectives par rapport à "Toy Story" (la distance est un indicateur de la similarité, où une distance plus faible signifie une plus grande similarité) :
+
+- Star Wars: Episode IV - A New Hope (1977) - Distance: 0.4274
+- Forrest Gump (1994) - Distance: 0.4344
+- Lion King, The (1994) - Distance: 0.4357
+- Jurassic Park (1993) - Distance: 0.4426
+- Mission: Impossible (1996) - Distance: 0.4529
+- Independence Day (a.k.a. ID4) (1996) - Distance: 0.4589
+- Star Wars: Episode VI - Return of the Jedi (1983) - Distance: 0.4589
+- Groundhog Day (1993) - Distance: 0.4611
+- Back to the Future (1985) - Distance: 0.4658
+- Toy Story 2 (1999) - Distance: 0.4696
+
+Cela conclut notre implémentation de l'algorithme de recommandation simple utilisant le filtrage collaboratif basé sur la similarité cosinus. Les films recommandés semblent être des choix pertinents, étant des films populaires qui partagent des thèmes ou des genres similaires avec "Toy Story".
+
+
