@@ -70,9 +70,7 @@ Filtrage des données
 
 Cette étape peut nécessiter une analyse supplémentaire pour identifier les seuils appropriés pour filtrer les utilisateurs ou les films avec un faible nombre de notes. Cela dit, procédons d'abord à la normalisation des genres dans movies.csv. 
 
-Code : 
-```
-# 1. Vérifier les valeurs manquantes pour chaque dataframe
+- 1. Vérifier les valeurs manquantes pour chaque dataframe
 missing_values = {
     "ratings_missing": ratings_df.isnull().sum(),
     "links_missing": links_df.isnull().sum(),
@@ -80,10 +78,11 @@ missing_values = {
     "tags_missing": tags_df.isnull().sum()
 }
 
-# 2. & 3. Pour le moment, nous nous concentrons sur les valeurs manquantes et la normalisation des genres sera traitée ensuite
+- 2. & 3. Pour le moment, nous nous concentrons sur les valeurs manquantes et la normalisation des genres sera traitée ensuite
 missing_values
 
 Code :
+```
 # Normaliser les genres en les transformant en listes
 movies_df['genres'] = movies_df['genres'].apply(lambda x: x.split('|'))
 
